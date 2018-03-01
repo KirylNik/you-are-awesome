@@ -13,7 +13,19 @@ const incrementor = function incrementor() {
     return (incrementor)
 }
 const asyncIncrementor = () => {};
-const createIncrementer = () => {};
+const createIncrementer = function* createIncrementer() {
+    yield 1;
+    yield 2;
+    yield 3;
+    yield 4;
+    yield 5;
+    yield 6;
+    yield 7;
+    yield 8;
+    yield 9;
+    yield 10;
+    return 11;
+}
 
 // return same argument not earlier than in one second, and not later, than in two
 const returnBackInSecond = () => {};
