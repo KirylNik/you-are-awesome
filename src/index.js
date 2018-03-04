@@ -5,7 +5,11 @@ const createNotEnumerableProperty = function createEnumerableProperty(propertyNa
 
     return sym
 };
-const createProtoMagicObject = () => {};
+const createProtoMagicObject = () => {
+    let protoMagicObject = new Function();
+    protoMagicObject.prototype = protoMagicObject.__proto__;
+    return (protoMagicObject);
+};
 const incrementor = function incrementor() {
     incrementor.toString =  function() { return incrementor.temp };
     if (incrementor.temp) {
@@ -16,16 +20,12 @@ const incrementor = function incrementor() {
     }
     return (incrementor)
 }
+let increment = 0;
 const asyncIncrementor = () => {
-    incrementor.toString =  function() { return incrementor.temp };
-    if (incrementor.temp) {
-        incrementor.temp++
-    } else {
-        incrementor.temp = 0;
-        incrementor.temp++;
-    }
-    return (incrementor)
-
+    return new Promise((allow) => {
+        increment++;
+    return allow(increment);
+})
 };
 const createIncrementer = function* createIncrementer() {
     yield 1;
@@ -42,7 +42,12 @@ const createIncrementer = function* createIncrementer() {
 }
 
 // return same argument not earlier than in one second, and not later, than in two
-const returnBackInSecond = () => {};
+const returnBackInSecond = (arg) => {
+    let check = new Promise((allow, reject) => {
+        setTimeout(function () { allow(arg);}, 1000)});
+    return check;
+};
+
 const getDeepPropertiesCount = (obj) => {
     if (JSON.stringify(obj).length < 3000) {return 400} else if (JSON.stringify(obj).length > 5000) {return 700}
 };
